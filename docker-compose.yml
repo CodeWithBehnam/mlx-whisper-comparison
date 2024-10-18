@@ -1,0 +1,44 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  mlx_whisper:
+    build:
+      context: ./services/mlx_whisper
+      dockerfile: Dockerfile
+    volumes:
+      - ./audio:/data
+      - ./outputs:/outputs
+    container_name: mlx_whisper_container
+
+  lightning_whisper:
+    build:
+      context: ./services/lightning_whisper
+      dockerfile: Dockerfile
+    volumes:
+      - ./audio:/data
+      - ./outputs:/outputs
+    container_name: lightning_whisper_container
+
+  whisper_turbo:
+    build:
+      context: ./services/whisper_turbo
+      dockerfile: Dockerfile
+    volumes:
+      - ./audio:/data
+      - ./outputs:/outputs
+    container_name: whisper_turbo_container
+
+  plotter:
+    build:
+      context: ./services/plotter
+      dockerfile: Dockerfile
+    volumes:
+      - ./outputs:/outputs
+      - ./audio:/data
+      - ./compare:/compare
+    depends_on:
+      - mlx_whisper
+      - lightning_whisper
+      - whisper_turbo
+    container_name: plotter_container
