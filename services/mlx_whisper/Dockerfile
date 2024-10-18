@@ -7,10 +7,10 @@ RUN apt-get update && apt-get install -y git ffmpeg && rm -rf /var/lib/apt/lists
 # Set work directory
 WORKDIR /app
 
-RUN pip install -U --no-cache-dir pip 
+RUN pip install -U pip
 
 # Install mlx-whisper
-RUN pip install --no-cache-dir mlx-whisper mlx 
+RUN pip install --no-cache-dir mlx-whisper 
 
 # Copy transcription script
 COPY transcribe.py .
